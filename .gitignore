@@ -1,0 +1,9 @@
+.openmcp/
+.venv
+src/search_mcp/__pycache__/
+**/__pycache__/
+src/search_mcp.egg-info/
+*.log
+logs/
+config.toml
+uv.lock

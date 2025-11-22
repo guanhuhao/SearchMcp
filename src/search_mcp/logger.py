@@ -3,8 +3,8 @@ from datetime import datetime
 from pathlib import Path
 from .config import config
 
-LOG_DIR = Path(__file__).parent.parent.parent / config.log_dir
-LOG_DIR.mkdir(exist_ok=True)
+LOG_DIR = config.log_dir
+LOG_DIR.mkdir(parents=True, exist_ok=True)
 LOG_FILE = LOG_DIR / f"search_mcp_{datetime.now().strftime('%Y%m%d')}.log"
 
 logger = logging.getLogger("search_mcp")

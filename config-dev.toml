@@ -1,0 +1,10 @@
+[debug]
+enabled = false
+
+[grok]
+api_url = "https://cc.guda.studio/grok/v1"
+api_key = "sk-82d1-f397dd89-7957-4756-b607-f9a569683478"
+
+[logging]
+level = "INFO"
+dir = "logs"

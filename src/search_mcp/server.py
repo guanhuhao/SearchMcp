@@ -34,9 +34,9 @@ async def web_search(query: str, ctx: Context = None) -> str:
         - `title`: a short title
         - `summary`: a brief description or snippet of the page content.
     """
-    await log_info(ctx, f"Begin Search: {query}", GUDA_DEBUG)
+    await log_info(ctx, f"Begin Search: {query}", config.debug_enabled)
     results = await grok_provider.search(query, ctx)
-    await log_info(ctx, "Search Finished!", GUDA_DEBUG)
+    await log_info(ctx, "Search Finished!", config.debug_enabled)
     return results
 
 

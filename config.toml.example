@@ -1,0 +1,10 @@
+[debug]
+enabled = false
+
+[grok]
+api_url = "YOUR_API_URL"
+api_key = "YOUR_API_KEY_HERE"
+
+[logging]
+level = "INFO"
+dir = "logs"
