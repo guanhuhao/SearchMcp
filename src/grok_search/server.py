@@ -7,8 +7,6 @@ import asyncio
 
 mcp = FastMCP("grok-search")
 
-grok_provider = GrokSearchProvider(config.grok_api_url, config.grok_api_key)
-
 @mcp.tool(
     name="web_search",
     meta={"author": "GuDa"}
@@ -34,6 +32,17 @@ async def web_search(query: str, ctx: Context = None) -> str:
         - `title`: a short title
         - `summary`: a brief description or snippet of the page content.
     """
+    try:
+        api_url = config.grok_api_url
+        api_key = config.grok_api_key
+    except ValueError as e:
+        error_msg = str(e)
+        if ctx:
+            await ctx.report_progress(error_msg)
+        return f"配置错误: {error_msg}"
+    
+    grok_provider = GrokSearchProvider(api_url, api_key)
+    
     await log_info(ctx, f"Begin Search: {query}", config.debug_enabled)
     results = await grok_provider.search(query, ctx)
     await log_info(ctx, "Search Finished!", config.debug_enabled)

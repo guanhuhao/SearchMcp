@@ -52,10 +52,6 @@ dir = "logs"
         
         if not self._config_path.exists():
             self._create_default_config(self._config_path)
-            raise FileNotFoundError(
-                f"Configuration file created at: {self._config_path}\n"
-                f"Please edit it with your API credentials and restart."
-            )
         
         with open(self._config_path, "rb") as f:
             self._config_data = tomllib.load(f)
@@ -67,15 +63,23 @@ dir = "logs"
     @property
     def grok_api_url(self) -> str:
         url = self._config_data.get("grok", {}).get("api_url")
-        if not url:
-            raise ValueError("grok.api_url not configured")
+        if not url or url == "YOUR_API_URL":
+            raise ValueError(
+                f"Grok API URL 未配置！\n"
+                f"请编辑配置文件: {self._config_path}\n"
+                f"设置 [grok] 部分的 api_url 为您的实际 API 地址"
+            )
         return url
     
     @property
     def grok_api_key(self) -> str:
         key = self._config_data.get("grok", {}).get("api_key")
-        if not key:
-            raise ValueError("grok.api_key not configured")
+        if not key or key == "YOUR_API_KEY_HERE":
+            raise ValueError(
+                f"Grok API Key 未配置！\n"
+                f"请编辑配置文件: {self._config_path}\n"
+                f"设置 [grok] 部分的 api_key 为您的实际 API Key"
+            )
         return key
     
     @property
