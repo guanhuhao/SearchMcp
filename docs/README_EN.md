@@ -151,7 +151,7 @@ The tool will automatically perform the following checks:
 **Successful Output Example**:
 ```json
 {
-  "api_url": "https://cc.guda.studio/grok/v1",
+  "api_url": "https://YOUR-API-URL/grok/v1",
   "api_key": "sk-a*****************xyz",
   "config_status": "✅ 配置完整",
   "connection_test": {
@@ -283,7 +283,7 @@ This project provides three MCP tools:
 
 ```json
 {
-  "api_url": "https://cc.guda.studio/grok/v1",
+  "api_url": "https://YOUR-API-URl/grok/v1",
   "api_key": "sk-a*****************xyz",
   "config_status": "✅ 配置完整",
   "connection_test": {

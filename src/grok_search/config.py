@@ -72,11 +72,11 @@ class Config:
             config_status = f"❌ 配置错误: {str(e)}"
 
         return {
-            "api_url": api_url,
-            "api_key": api_key_masked,
-            "debug_enabled": self.debug_enabled,
-            "log_level": self.log_level,
-            "log_dir": str(self.log_dir),
+            "GROK_API_URL": api_url,
+            "GROK_API_KEY": api_key_masked,
+            "GROK_DEBUG": self.debug_enabled,
+            "GROK_LOG_LEVEL": self.log_level,
+            "GROK_LOG_DIR": str(self.log_dir),
             "config_status": config_status
         }
 

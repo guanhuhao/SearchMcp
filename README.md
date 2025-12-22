@@ -151,7 +151,7 @@ claude mcp list
 **成功示例输出**：
 ```json
 {
-  "api_url": "https://cc.guda.studio/grok/v1",
+  "api_url": "https://YOUR-API-URL/grok/v1",
   "api_key": "sk-a*****************xyz",
   "config_status": "✅ 配置完整",
   "connection_test": {
@@ -279,12 +279,12 @@ claude mcp list
 
 ```json
 {
-  "api_url": "https://cc.guda.studio/grok/v1",
+  "api_url": "https://YOUR-API-URL/grok/v1",
   "api_key": "sk-a*****************xyz",
   "config_status": "✅ 配置完整",
   "connection_test": {
     "status": "✅ 连接成功",
-    "message": "成功获取模型列表 (HTTP 200)，共 5 个模型",
+    "message": "成功获取模型列表 (HTTP 200)，共 x 个模型",
     "response_time_ms": 234.56
   }
 }
