@@ -47,6 +47,7 @@ Comparison with other search solutions:
 - ✅ Support for platform-specific searches (Twitter, Reddit, GitHub, etc.)
 - ✅ Configuration testing tool (connection test + API Key masking)
 - ✅ Dynamic model switching (switch between Grok models with persistent settings)
+- ✅ **Tool routing control (one-click disable built-in WebSearch/WebFetch, force use GrokSearch)**
 - ✅ Extensible architecture for additional search providers
 
 ## Quick Start
@@ -201,6 +202,7 @@ To better utilize Grok Search, you can optimize the overall Vibe Coding CLI by c
 | **web_fetch** | Webpage content fetching | `url` (required) | Structured Markdown<br>(with metadata header) | • Complete document retrieval<br>• In-depth content analysis<br>• Link content verification |
 | **get_config_info** | Configuration status detection | No parameters | JSON<br>`{api_url, status, connection_test}` | • Connection troubleshooting<br>• First-time use validation |
 | **switch_model** | Model switching | `model` (required) | JSON<br>`{status, previous_model, current_model, config_file}` | • Switch Grok models<br>• Performance/quality optimization<br>• Cross-session persistence |
+| **toggle_builtin_tools** | Tool routing control | `action` (optional: on/off/status) | JSON<br>`{blocked, deny_list, file}` | • Disable built-in tools<br>• Force route to GrokSearch<br>• Project-level config management |
 
 ## 2. Search Workflow
 
@@ -419,6 +421,46 @@ Please switch the Grok model to grok-2-latest
 Or simply say:
 ```
 Switch model to grok-vision-beta
+```
+
+</details>
+
+##### `toggle_builtin_tools` - Tool Routing Control
+
+| Parameter | Type | Required | Default | Description |
+|-----------|------|----------|---------|-------------|
+| `action` | string | ❌ | `"status"` | Action type: `"on"`/`"enable"`(disable built-in tools), `"off"`/`"disable"`(enable built-in tools), `"status"`/`"check"`(view status) |
+
+**Features**:
+- Control project-level `.claude/settings.json` `permissions.deny` configuration
+- Disable/enable Claude Code's built-in `WebSearch` and `WebFetch` tools
+- Force routing to GrokSearch MCP tools
+- Auto-locate project root (find `.git`)
+- Preserve other configuration items
+
+<details>
+<summary><b>Return Example</b> (Click to expand)</summary>
+
+```json
+{
+  "blocked": true,
+  "deny_list": ["WebFetch", "WebSearch"],
+  "file": "/path/to/project/.claude/settings.json",
+  "message": "官方工具已禁用"
+}
+```
+
+**Usage Example**:
+
+```
+# Disable built-in tools (recommended)
+Disable built-in search and fetch tools
+
+# Enable built-in tools
+Enable built-in search and fetch tools
+
+# Check current status
+Show status of built-in tools
 ```
 
 </details>

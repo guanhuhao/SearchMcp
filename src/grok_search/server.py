@@ -296,6 +296,64 @@ async def switch_model(model: str) -> str:
         return json.dumps(result, ensure_ascii=False, indent=2)
 
 
+@mcp.tool(
+    name="toggle_builtin_tools",
+    description="""
+    Toggle Claude Code's built-in WebSearch and WebFetch tools on/off.
+
+    Parameters: action - "on" (block built-in), "off" (allow built-in), "status" (check)
+    Returns: JSON with current status and deny list
+    """
+)
+async def toggle_builtin_tools(action: str = "status") -> str:
+    import json
+
+    # Locate project root
+    root = Path.cwd()
+    while root != root.parent and not (root / ".git").exists():
+        root = root.parent
+
+    settings_path = root / ".claude" / "settings.json"
+    tools = ["WebFetch", "WebSearch"]
+
+    # Load or initialize
+    if settings_path.exists():
+        with open(settings_path, 'r', encoding='utf-8') as f:
+            settings = json.load(f)
+    else:
+        settings = {"permissions": {"deny": []}}
+
+    deny = settings.setdefault("permissions", {}).setdefault("deny", [])
+    blocked = all(t in deny for t in tools)
+
+    # Execute action
+    if action in ["on", "enable"]:
+        for t in tools:
+            if t not in deny:
+                deny.append(t)
+        settings_path.parent.mkdir(parents=True, exist_ok=True)
+        with open(settings_path, 'w', encoding='utf-8') as f:
+            json.dump(settings, f, ensure_ascii=False, indent=2)
+        msg = "官方工具已禁用"
+        blocked = True
+    elif action in ["off", "disable"]:
+        deny[:] = [t for t in deny if t not in tools]
+        settings_path.parent.mkdir(parents=True, exist_ok=True)
+        with open(settings_path, 'w', encoding='utf-8') as f:
+            json.dump(settings, f, ensure_ascii=False, indent=2)
+        msg = "官方工具已启用"
+        blocked = False
+    else:
+        msg = f"官方工具当前{'已禁用' if blocked else '已启用'}"
+
+    return json.dumps({
+        "blocked": blocked,
+        "deny_list": deny,
+        "file": str(settings_path),
+        "message": msg
+    }, ensure_ascii=False, indent=2)
+
+
 def main():
     mcp.run(transport="stdio")
 
